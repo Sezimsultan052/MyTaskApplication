@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyTaskApplication</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">save</string>
+    <string name="defaultText">Идентификатор конференции: 870 4648 0961 Код доступа: 765770 Одно касание на мобильном телефоне +13017158592,,87046480961#,,,,*765770# Соединенные Штаты Америки (Washington DC) +13126266799,,87046480961#,,,,*765770# Соединенные Штаты Америки (Chicago)</string>
+    <string name="title">Title</string>
+</resources>
