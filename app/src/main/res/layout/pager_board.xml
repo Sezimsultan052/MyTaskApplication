@@ -5,9 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+
     <androidx.constraintlayout.helper.widget.Flow
         android:orientation="vertical"
-        app:constraint_referenced_ids="boardIv, boardFirstTv, boardSecondTv"
+        app:constraint_referenced_ids="boardIv, boardFirstTv, boardSecondTv, homeBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,19 +28,26 @@
     <TextView
         android:textColor="@color/black"
         android:id="@+id/boardFirstTv"
-        android:text="@string/title"
+        tools:text="@string/title"
         android:layout_width="350dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:gravity="center"
         android:textColor="@color/black"
         android:id="@+id/boardSecondTv"
-        android:text="@string/defaultText"
+        tools:text="@string/defaultText"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/homeBtn"
+        android:visibility="gone"
+        android:text="@string/open_home"
+        android:backgroundTint="@color/gray"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

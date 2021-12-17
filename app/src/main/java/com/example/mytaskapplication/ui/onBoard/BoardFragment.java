@@ -6,6 +6,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import com.example.mytaskapplication.R;
 import com.example.mytaskapplication.databinding.FragmentBoardBinding;
 import com.example.mytaskapplication.utils.Prefs;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,7 +73,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentBoardBinding.inflate(inflater,container, false);
+        binding = FragmentBoardBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -83,6 +87,8 @@ public class BoardFragment extends Fragment {
                 requireActivity().finish();
             }
         });
+        new TabLayoutMediator(binding.tabLayout, binding.boardPager, ((tab, position) ->tab.setIcon(R.drawable.circle))).attach();
+
 
 
     }
@@ -91,7 +97,12 @@ public class BoardFragment extends Fragment {
         adapter = new BoardAdapter();
         binding.boardPager.setAdapter(adapter);
 
+        //TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
 
+        adapter.listener = () -> {
+         NavController controller = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+         controller.navigateUp();
+        };
 
 
     }

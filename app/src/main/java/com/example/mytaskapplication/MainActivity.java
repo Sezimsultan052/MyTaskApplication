@@ -3,7 +3,6 @@ package com.example.mytaskapplication;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mytaskapplication.utils.Prefs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
