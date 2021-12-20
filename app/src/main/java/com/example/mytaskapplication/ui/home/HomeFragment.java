@@ -1,10 +1,14 @@
 package com.example.mytaskapplication.ui.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +22,7 @@ import androidx.navigation.Navigation;
 import com.example.mytaskapplication.R;
 import com.example.mytaskapplication.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -46,6 +50,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initRv() {
+        adapter.setListener(this);
         binding.taskRv.setAdapter(adapter);
 
     }
@@ -78,5 +83,29 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(String txt) {
+        Toast.makeText(requireActivity(), txt, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongClick(int position) {
+        Log.e("TAG", "pos"  + position);
+        new AlertDialog.Builder(requireContext())
+                .setMessage(" !!!!!!")
+                .setIcon(R.drawable.ic_launcher_foreground)
+                .setTitle("Do you remove item?")
+                .setNegativeButton("No", null)
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.removeItem(position);
+                        binding.taskRv.setAdapter(adapter);
+                    }
+                }).show();
+
+
     }
 }

@@ -3,6 +3,7 @@ package com.example.mytaskapplication;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.mytaskapplication.utils.Prefs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        navController.navigate(R.id.boardFragment);
+
+        //Prefs prefs = new Prefs(this);
+        //если борд не  показывался
+//        if(Prefs.getInstance().isBoardShown()){
+//            //открытие борд фрагмент
+//            navController.navigate(R.id.boardFragment);
+//            Prefs.getInstance().saveBordState();
+//        }
+
+        if(App.prefs.isBoardShown()){
+            navController.navigate(R.id.boardFragment);
+            App.prefs.saveBordState();
+
+        }
+
+
+
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override

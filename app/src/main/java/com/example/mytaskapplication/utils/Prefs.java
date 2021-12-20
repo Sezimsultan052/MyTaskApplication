@@ -7,14 +7,20 @@ import android.widget.ShareActionProvider;
 public class Prefs {
 
     private SharedPreferences preferences;
+//    private static Prefs Instance;
+//
+//    public static Prefs getInstance() {
+//        return Instance;
+//    }
+
 
     public Prefs(Context context){
-
+        //Instance = this;
         preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
 
     }
 
-    public void saveBor(){
+    public void saveBordState(){
         preferences.edit().putBoolean("isShown", true).apply();
 
     }

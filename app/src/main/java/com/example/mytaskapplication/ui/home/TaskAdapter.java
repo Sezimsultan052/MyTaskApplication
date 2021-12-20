@@ -17,11 +17,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private ArrayList<String> list = new ArrayList<>();
 
+    private OnItemClick listener;
+
     public void setText(String text){
         list.add(text);
         notifyDataSetChanged();
 
     }
+ //инициализация интерфейса
+     public void setListener(OnItemClick listener){
+        this.listener = listener;
+
+    }
+
+    public void removeItem(int position){
+        list.remove(position);
+        notifyDataSetChanged();
+
+    }
+
 
     @NonNull
     @Override
@@ -40,13 +54,35 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return list.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
+
             super(itemView);
+            itemView.setOnLongClickListener(v -> {
+
+                listener.onLongClick(getAdapterPosition());
+                return true;
+            });
+
+
+
+
         }
 
-        public void onBind(String s) {
-            binding.titleRv.setText(s);
+        public void onBind(String text) {
+
+            binding.titleRv.setText(text);
+            itemView.setOnClickListener(v ->{
+                listener.onClick(text);
+            });
+
         }
     }
+
+    interface OnItemClick {
+        void onClick(String txt);
+        void onLongClick(int position);
+    }
+
 }
