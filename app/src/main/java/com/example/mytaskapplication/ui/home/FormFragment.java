@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mytaskapplication.App;
 import com.example.mytaskapplication.R;
 import com.example.mytaskapplication.databinding.FragmentFormBinding;
+import com.example.mytaskapplication.ui.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,9 +77,39 @@ public class FormFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isEdited();
 
-        initListeners();
+        //initListeners();
 
+    }
+
+    private void isEdited() {
+        if (getArguments() != null) {
+            binding.nameEt.setText(getArguments().getString("editName"));
+            binding.surnameEt.setText(getArguments().getString("editSurname"));
+            binding.saveBtn.setOnClickListener(view -> {
+                editUser();
+                close();
+            });
+        } else {
+            binding.saveBtn.setOnClickListener(view -> {
+                initListeners();
+            });
+        }
+    }
+
+    private void editUser() {
+        Bundle bundleEDited = new Bundle();
+      String name = binding.nameEt.getText().toString();
+      String surname = binding.surnameEt.getText().toString();
+      int id = getArguments().getInt("position");
+      User userEdit = new User(id, name, surname);
+        App.dataBase.userDao().updateUser(userEdit);
+        bundleEDited.putString("editName", name);
+        bundleEDited.putString("editSurname", surname);
+        bundleEDited.putSerializable("editedUser", userEdit);
+        getParentFragmentManager().setFragmentResult("UserEdited", bundleEDited);
+        getParentFragmentManager().popBackStack();
     }
 
     private void initListeners() {
@@ -93,9 +126,16 @@ public class FormFragment extends Fragment {
     }
 
     private void save() {
-        String text = binding.taskEt.getText().toString();
+//        String text = binding.taskEt.getText().toString();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("text",  text);
+//        getParentFragmentManager().setFragmentResult("key", bundle);
+
+        String name = binding.nameEt.getText().toString();
+        String surname = binding.surnameEt.getText().toString();
+        User user = new User(name, surname);
         Bundle bundle = new Bundle();
-        bundle.putString("text",  text);
+        bundle.putSerializable("user", user);
         getParentFragmentManager().setFragmentResult("key", bundle);
 
     }

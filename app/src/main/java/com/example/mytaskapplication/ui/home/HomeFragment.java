@@ -14,23 +14,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.mytaskapplication.App;
 import com.example.mytaskapplication.R;
 import com.example.mytaskapplication.databinding.FragmentHomeBinding;
+import com.example.mytaskapplication.ui.models.User;
+
+import java.text.Normalizer;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
-    private TaskAdapter adapter = new TaskAdapter();
+    private TaskAdapter adapter;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        adapter = new TaskAdapter();
+        adapter.setListener(getContext(), this);
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -46,11 +55,26 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
         super.onViewCreated(view, savedInstanceState);
         initListeners();
         setFragmentListener();
+        App.dataBase.userDao().getAllUsers().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                adapter.setList(users);
+                Log.e("TAG", "LiveDATA worked ");
+            }
+        });
         initRv();
     }
 
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        adapter.setList(App.dataBase.userDao().getAllUsers());
+//    }
+
     private void initRv() {
-        adapter.setListener(this);
+
+        // adapter.setList(getList());
         binding.taskRv.setAdapter(adapter);
 
     }
@@ -59,9 +83,17 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
         getParentFragmentManager().setFragmentResultListener("key", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                String text  = result.getString("text");
+                User user = (User) result.getSerializable("user");
+                App.dataBase.userDao().addUser(user);
                 //Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show();
-                adapter.setText(text);
+                //adapter.setUser(user);
+            }
+        });
+        getParentFragmentManager().setFragmentResultListener("UserEdited", getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                User user = (User) result.getSerializable("editedUser");
+
             }
         });
     }
@@ -73,10 +105,9 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
     }
 
     private void openFragment() {
-        NavController navController = Navigation.findNavController(requireActivity(),R.id.nav_host_fragment_activity_main);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.formFragment);
     }
-
 
 
     @Override
@@ -86,13 +117,28 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
     }
 
     @Override
-    public void onClick(String txt) {
-        Toast.makeText(requireActivity(), txt, Toast.LENGTH_SHORT).show();
+    public void onClick(int position) {
+        User userEdit = adapter.getList().get(position);
+        Bundle bundleEdit = new Bundle();
+        bundleEdit.putString("editName", userEdit.getName());
+        bundleEdit.putString("editSurname", userEdit.getSurname());
+        bundleEdit.putInt("position", userEdit.getId());
+        FormFragment formFragment = new FormFragment();
+        formFragment.setArguments(bundleEdit);
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, formFragment);
+        transaction.addToBackStack("FormFragment");
+        transaction.commit();
+
+
+        //binding.
+
+        //Toast.makeText(requireActivity(), txt, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLongClick(int position) {
-        Log.e("TAG", "pos"  + position);
+        //Log.e("TAG", "pos"  + position);
         new AlertDialog.Builder(requireContext())
                 .setMessage(" !!!!!!")
                 .setIcon(R.drawable.ic_launcher_foreground)
@@ -102,7 +148,10 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnItemClick {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.removeItem(position);
-                        binding.taskRv.setAdapter(adapter);
+//                        App.dataBase.userDao().deleteUser(user);
+//                        adapter.removeItem(position);
+//                        binding.taskRv.setAdapter(adapter);
+
                     }
                 }).show();
 

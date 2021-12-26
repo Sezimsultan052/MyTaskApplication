@@ -8,20 +8,61 @@
     tools:context=".ui.home.FormFragment">
 
 
-    <EditText
-        android:id="@+id/taskEt"
+<!--    <EditText-->
+<!--        android:id="@+id/taskEt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:hint="Enter your text"-->
+<!--        android:background="@drawable/bg_edit_text"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textAllCaps="true"/>-->
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/inputLayoutName"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Enter your text"
-        android:textAlignment="center"
-        android:textAllCaps="true"/>
+        android:hint="Enter name"
+        app:layout_constraintBottom_toBottomOf="parent">
+<!--        app:startIconDrawable="@drawable/circle"-->
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputLayoutSurname"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutName"
+        android:hint="Enter surname">
+        <!--        app:startIconDrawable="@drawable/circle"-->
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/surnameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <Button
+        android:background="@drawable/bg_button"
         android:id="@+id/saveBtn"
-        app:layout_constraintTop_toBottomOf="@+id/taskEt"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
