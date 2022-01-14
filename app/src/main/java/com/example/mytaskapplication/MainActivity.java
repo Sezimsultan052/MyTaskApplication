@@ -16,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mytaskapplication.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
 //            navController.navigate(R.id.boardFragment);
 //            Prefs.getInstance().saveBordState();
 //        }
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            navController.navigate(R.id.autFragment);
+        }
 
         if(App.prefs.isBoardShown()){
             navController.navigate(R.id.boardFragment);

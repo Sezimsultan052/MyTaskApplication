@@ -1,20 +1,25 @@
 package com.example.mytaskapplication.ui.profile;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mytaskapplication.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.mytaskapplication.App;
 import com.example.mytaskapplication.databinding.FragmentProfileBinding;
 
 /**
@@ -75,9 +80,24 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        //Uri  uri = (Uri) App.prefs.getPic();
+        //binding.imageViewGalery.setImageURI(uri);
+        binding.imageViewGalery.setImageURI(App.prefs.getPic());
+        binding.userNameEt.setText(App.prefs.getInfo());
         return root;
 
         }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.deleteBtn.setOnClickListener(v -> {
+            App.prefs.clearPic();
+            App.prefs.clearInfo();
+            binding.imageViewGalery.setImageIcon(null);
+        });
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -86,16 +106,30 @@ public class ProfileFragment extends Fragment {
         mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
+                Glide.with(getContext()).load(result).apply(RequestOptions.circleCropTransform()).into(binding.imageViewGalery);
                 binding.imageViewGalery.setImageURI(result);
+                App.prefs.savePic(result.toString());
+
+                binding.userNameEt.setText(result.toString());
+                App.prefs.saveInfo(result.toString());
             }
         });
 
+        //saveUsername();
 
+
+
+    }
+
+    private void saveUsername() {
+        String text = binding.userNameEt.getText().toString();
+        App.prefs.saveInfo(text);
     }
 
     private void initProfileListener() {
         binding.imageViewGalery.setOnClickListener(v -> {
             mGetContent.launch("image/*");
         });
+
     }
 }

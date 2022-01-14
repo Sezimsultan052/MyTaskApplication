@@ -1,22 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="50dp"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.profile.ProfileFragment">
 
 
     <ImageView
+        android:layout_marginStart="100dp"
         android:id="@+id/imageViewGalery"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_baseline_image_24"
-        android:layout_margin="100dp"
+        android:layout_width="100dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        android:layout_height="100dp"
         />
 
-</FrameLayout>
+
+    <EditText
+        android:layout_marginBottom="25dp"
+        android:hint="Введите User name"
+        android:id="@+id/userNameEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        app:layout_constraintTop_toBottomOf="@+id/userNameEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteBtn"
+        android:text="CLEAR"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:cornerRadius="15dp"
+        android:backgroundTint="@color/gray"
+        />
+
+
+
+
+
+
+</LinearLayout>

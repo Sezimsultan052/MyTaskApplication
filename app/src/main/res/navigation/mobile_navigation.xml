@@ -37,4 +37,10 @@
         android:name="com.example.mytaskapplication.ui.onBoard.BoardFragment"
         android:label="fragment_board"
         tools:layout="@layout/fragment_board" />
+
+    <fragment
+        android:id="@+id/autFragment"
+        android:name="com.example.mytaskapplication.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth"/>
 </navigation>

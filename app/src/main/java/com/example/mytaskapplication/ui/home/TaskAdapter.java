@@ -57,11 +57,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     }
 
-    public void editUser(User user){
-        list.set(list.indexOf(user), user);
-
-    }
-
 
 
     @NonNull

@@ -53,7 +53,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         private Button homeBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.boardIv);
+            //imageView = itemView.findViewById(R.id.boardIv);
+
             title = itemView.findViewById(R.id.boardFirstTv);
             description = itemView.findViewById(R.id.boardSecondTv);
             homeBtn = itemView.findViewById(R.id.homeBtn);
@@ -62,7 +63,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         public void onBind(int position) {
             title.setText(list[position]);
             description.setText(list2[position]);
-            imageView.setImageResource(listImg[position]);
+            //imageView.setImageResource(listImg[position]);
 //            switch (position){
 //                case 0:
 //                    title.setText("This is 1st screen");

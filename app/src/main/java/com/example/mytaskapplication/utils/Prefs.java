@@ -2,7 +2,7 @@ package com.example.mytaskapplication.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.ShareActionProvider;
+import android.net.Uri;
 
 public class Prefs {
 
@@ -28,5 +28,33 @@ public class Prefs {
     public boolean isBoardShown(){
         return  preferences.getBoolean("isShown", false);
 
+    }
+
+    public void savePic(String uri){
+        preferences.edit().putString("img",uri).apply();
+    }
+
+    public void clearPic(){
+        preferences.edit().remove("img").apply();
+
+    }
+
+    public Uri getPic(){
+        //return preferences.getString("img", null);
+        return Uri.parse(preferences.getString("img", " "));
+    }
+
+    public void saveInfo(String text){
+        preferences.edit().putString("text", " ").apply();
+
+    }
+
+    public String getInfo(){
+        return  preferences.getString("text", "");
+    }
+
+
+    public void clearInfo() {
+        preferences.edit().remove("text").apply();
     }
 }
